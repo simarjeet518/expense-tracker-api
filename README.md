@@ -28,3 +28,5 @@ Both of these achieve the same result.
 
 - Make a `GET` request to `/api/debug/reset` with `curl http://localhost:3002/api/debug/reset`.
 - Use the browser to navigate to `http://localhost:3002/api/debug/reset
+
+- use `http://localhost:3002/api/users/:id` to get users data
