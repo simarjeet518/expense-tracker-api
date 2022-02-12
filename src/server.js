@@ -4,6 +4,8 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors"); // cors require
 const ENV = require("./environment");
+var bodyParser = require("body-parser");
+
 const PORT = 3002;
 const app = express();
 const db = require("./db");
@@ -11,9 +13,12 @@ const db = require("./db");
 app.use(cors()); // CORS middleware useage
 app.use(morgan("dev"));
 
-const days = require("./routes/days");
+const users = require("./routes/users");
+const login = require("./routes/login");
 
-app.use("/api", days(db));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/api", login(db));
+app.use("/api/users", users(db));
 
 function read(file) {
   return new Promise((resolve, reject) => {
