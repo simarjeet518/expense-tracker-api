@@ -18,8 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const users = require("./routes/users");
 const login = require("./routes/login");
+
 app.use("/api", login(db));
 app.use("/api/users", users(db));
+
 
 function read(file) {
   return new Promise((resolve, reject) => {
