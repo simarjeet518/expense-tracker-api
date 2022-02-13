@@ -4,19 +4,20 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors"); // cors require
 const ENV = require("./environment");
-var bodyParser = require("body-parser");
+let bodyParser = require("body-parser");
 
-const PORT = 3002;
+const PORT = 8000;
 const app = express();
 const db = require("./db");
 
 app.use(cors()); // CORS middleware useage
 app.use(morgan("dev"));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const users = require("./routes/users");
 const login = require("./routes/login");
-
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", login(db));
 app.use("/api/users", users(db));
 

@@ -17,7 +17,7 @@ CREATE TABLE users_monthly_allowance (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   budget NUMERIC default 0,
   year varchar(4) default to_char(CURRENT_DATE, 'yyyy'),
-  month varchar(3) default to_char(CURRENT_DATE, 'mmm')
+  month varchar(3) default to_char(CURRENT_DATE, 'mm')
 );
 
 CREATE TABLE categories (

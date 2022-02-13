@@ -2,8 +2,9 @@ const router = require("express").Router();
 
 module.exports = (db) => {
   router.post("/register", (req, res) => {
-    const first_name = req.body.first_name;
-    const last_name = req.body.last_name;
+    console.log(req);
+    const first_name = req.body.firstName;
+    const last_name = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
 
@@ -11,13 +12,13 @@ module.exports = (db) => {
       .then((data) => {
         const user = data.rows[0];
         console.log(user);
-        //if already same email user exists send null to client
+        //if already same email user exists
         if (user) {
-          res.json(null);
+          res.sendStatus(400);
         } else {
           //  register a user into the database
           db.query(
-            `INSERT INTO users(first_name,last_name,email,password) VALUES ($1, $2, $3, $4) RETURNING *;`,
+            `INSERT INTO users(first_name,last_name,email,password) VALUES ($1, $2, $3, $4) RETURNING first_name ,last_name, email , id;`,
             [first_name, last_name, email, password]
           )
             .then((data) => {
@@ -25,6 +26,7 @@ module.exports = (db) => {
               res.json(user);
             })
             .catch((error) => {
+              res.sendStatus(400);
               console.log(error);
             });
         }
@@ -40,7 +42,19 @@ module.exports = (db) => {
 
     db.query(`SELECT * FROM users WHERE email = $1`, [email]).then((data) => {
       const user = data.rows[0];
-      user.password === password ? res.json(user) : res.json(null);
+      console.log(user);
+      if (user) {
+        //dont want to send back password
+        const returndata = {
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+        };
+        user.password === password ? res.json(returndata) : res.sendStatus(404);
+      } else {
+        res.sendStatus(404);
+      }
     });
   });
 
