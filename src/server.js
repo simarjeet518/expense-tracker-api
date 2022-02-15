@@ -6,7 +6,7 @@ const cors = require("cors"); // cors require
 const ENV = require("./environment");
 let bodyParser = require("body-parser");
 
-const PORT = 8000;
+const PORT = 5329;
 const app = express();
 const db = require("./db");
 
