@@ -23,8 +23,8 @@ module.exports = (db) => {
 });
 
   router.get("/:id", (req, res) => {
-    db.query(`SELECT categories.id, categories.name as name  FROM categories
-    join user_categories ON user_categories.category.id = categories.id
+    db.query(`SELECT DISTINCT categories.id,categories.name as name  FROM categories
+    join user_categories ON user_categories.category_id = categories.id
     WHERE user_id =$1 ;`, [req.params.id])
       .then((data) => {
         res.json(data.rows);
