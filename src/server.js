@@ -6,7 +6,7 @@ const cors = require("cors"); // cors require
 const ENV = require("./environment");
 let bodyParser = require("body-parser");
 
-const PORT = 5329;
+const PORT = 7600;
 const app = express();
 const db = require("./db");
 
@@ -18,10 +18,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const users = require("./routes/users");
 const login = require("./routes/login");
+const transactions = require("./routes/transactions");
+const budget = require("./routes/budget");
+const categories = require("./routes/categories");
 
 app.use("/api", login(db));
 app.use("/api/users", users(db));
-
+app.use("/api/transactions", transactions(db));
+app.use("/api/budget", budget(db));
+app.use("/api/categories", categories(db));
 
 function read(file) {
   return new Promise((resolve, reject) => {

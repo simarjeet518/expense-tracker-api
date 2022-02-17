@@ -16,8 +16,9 @@ CREATE TABLE users_monthly_allowance (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   budget NUMERIC default 0,
-  year varchar(4) default to_char(CURRENT_DATE, 'yyyy'),
-  month varchar(3) default to_char(CURRENT_DATE, 'mm')
+  date TIMESTAMP DEFAULT Now()
+  -- year varchar(4) default to_char(CURRENT_DATE, 'yyyy'),
+  -- month varchar(3) default to_char(CURRENT_DATE, 'mm')
 );
 
 CREATE TABLE categories (
@@ -31,8 +32,7 @@ CREATE TABLE user_categories (
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE ,
   budget NUMERIC default 0,
   expense NUMERIC NUll,
-  year varchar(4) default to_char(CURRENT_DATE, 'yyyy'),
-  month varchar(2) default to_char(CURRENT_DATE, 'mm')
+  date TIMESTAMP DEFAULT Now()
 );
 
 CREATE TABLE transactions (
@@ -41,8 +41,7 @@ CREATE TABLE transactions (
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE ,
   amount NUMERIC NOT NULL,
   note VARCHAR(255) DEFAULT NULL,
-  date VARCHAR(10) NOT NULL DEFAULT to_char(CURRENT_DATE, 'yyyy-mm-dd'),
-  time TIME NOT NULL DEFAULT CURRENT_TIME(0),
+  date TIMESTAMP default now(),
   location VARCHAR(255) DEFAULT NULL,
   receipt bytea default Null,
   fixed BOOLEAN default false
