@@ -3,24 +3,24 @@ const router = require("express").Router();
 
 module.exports = (db) => {
 
-  router.post("/:id", (req, res) => {
+//   router.post("/:id", (req, res) => {
     
-    const name = req.body.name;
-  db.query(`INSERT INTO categories(name) VALUES (name) returning id;
-  `)
-  .then((data) => {
-    db.query(`INSERT INTO user_categories WHERE user_id = $1 and category_id = $2`,[req.params.id,data.rows[0].id])
-    .then((data) => {
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-});
+//     const name = req.body.name;
+//   db.query(`INSERT INTO categories(name) VALUES (name) returning id;
+//   `)
+//   .then((data) => {
+//     db.query(`INSERT INTO user_categories WHERE user_id = $1 and category_id = $2`,[req.params.id,data.rows[0].id])
+//     .then((data) => {
+//       res.sendStatus(200);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+// });
 
   // router.get("/:id", (req, res) => {
   //   db.query(`SELECT DISTINCT categories.id,categories.name as name  FROM categories
@@ -60,7 +60,7 @@ module.exports = (db) => {
  
 });
 
-  router.get("/allowances/:id", (req, res) => {
+  router.get("/:id", (req, res) => {
     // let date  = new Date();
     // let currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
     // let currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
