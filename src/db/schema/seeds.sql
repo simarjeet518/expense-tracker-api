@@ -11,8 +11,8 @@ VALUES ('Food'),('Grocery'),('Phone Bill'),('Gas Bill'),('Fun Money'),('Rent'),(
 -- Insert INTO users_monthly_allowance(user_id, budget)
 -- VALUES (1,5000);
 
-INSERT INTO user_categories(user_id,category_id,budget)
-VALUES (1,1,500),(1,2,1000);
+-- INSERT INTO user_categories(user_id,category_id,budget)
+-- VALUES (1,1,500),(1,2,1000);
 
 INSERT INTO user_categories(user_id,category_id)
 VALUES (1,3),(1,5),(1,4),(1,6),(1,7),(1,1),(1,2),(2,8);

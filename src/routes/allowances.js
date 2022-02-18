@@ -1,40 +1,8 @@
 const router = require("express").Router();
 
-
 module.exports = (db) => {
 
   router.post("/:id", (req, res) => {
-    
-    const name = req.body.name;
-  db.query(`INSERT INTO categories(name) VALUES (name) returning id;
-  `)
-  .then((data) => {
-    db.query(`INSERT INTO user_categories WHERE user_id = $1 and category_id = $2`,[req.params.id,data.rows[0].id])
-    .then((data) => {
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-});
-
-  // router.get("/:id", (req, res) => {
-  //   db.query(`SELECT DISTINCT categories.id,categories.name as name  FROM categories
-  //   join user_categories ON user_categories.category_id = categories.id
-  //   WHERE user_id =$1 ;`, [req.params.id])
-  //     .then((data) => {
-  //       res.json(data.rows);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // });
-
-  router.post("/allowances/:id", (req, res) => {
     // const id= req.body.id;
     console.log(req.body);
     const user_id = req.params.id;
@@ -43,8 +11,8 @@ module.exports = (db) => {
   db.query(`SELECT id from categories where name Like $1`,[category_name])
   .then((data)=>{
     console.log("data here",data);
-    db.query(`update user_categories set budget = $1  where category_id = $2 and user_id = $3 returning *;
-    `,[ budget,data.rows[0].id, user_id])
+    db.query(`INSERT INTO user_categories(user_id,category_id,budget) VALUES($1,$2,$3);
+    `,[ user_id,data.rows[0].id, budget])
     .then((data) => {
       console.log(data.rows[0]);
       res.sendStatus(200);
@@ -60,7 +28,7 @@ module.exports = (db) => {
  
 });
 
-  router.get("/allowances/:id", (req, res) => {
+  router.get("/:id", (req, res) => {
     // let date  = new Date();
     // let currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
     // let currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
@@ -74,10 +42,6 @@ module.exports = (db) => {
         console.log(error);
       });
   });
-
-
  
- 
-
   return router;
 };
