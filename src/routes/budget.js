@@ -4,23 +4,34 @@ const router = require("express").Router();
 module.exports = (db) => {
 
   router.post("/:id", (req, res) => {
-    const id = req.body.id;
-    const budget = req.body.budget;
-  db.query(`INSERT INTO users_monthly_allowance(id,user_id, budget) VALUES ($1, $2, $3);
-  `,[id,req.params.id, budget])
-  .then((data) => {
-    res.sendStatus(200);
-  })
-  .catch((error) => {
-    console.log(error);
+   // const id = req.body.id;
+    const budget = req.body.amount;
+    const user_id = req.params.id;
+    console.log(budget);
+    db.query(`SELECT * from  users_monthly_allowance where user_id = $1;`,[user_id])
+    .then((res)=>{
+      console.log("here",res.rows.length);
+      if(res.rows.length > 0){
+        db.query(`update  users_monthly_allowance set budget = $1 where user_id = $2;`,[budget,user_id])
+        .then((res) => console.log("updated"))
+        .catch((err)=>{ console.log(err)})
+      }
+      else {
+        db.query(`INSERT INTO users_monthly_allowance(user_id, budget) VALUES ($1, $2);
+          `,[user_id, budget])
+        .then((res) => console.log("inserted"))
+        .catch((err)=>{ console.log(err)})
+      }
+    })
+    .catch((err)=>{ console.log(err)})
   });
-});
 
   router.get("/:id", (req, res) => {
+    const user_id = req.params.id;
     let date  = new Date();
-    let currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
-    let currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
-    db.query('SELECT id, budget,date  FROM users_monthly_allowance WHERE id=$1 ', [8])
+    const currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
+    const currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
+    db.query('SELECT id, budget as amount,date  FROM users_monthly_allowance WHERE user_id=$1;', [user_id])
       .then((data) => {
         res.json(data.rows);
       })

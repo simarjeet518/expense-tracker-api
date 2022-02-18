@@ -8,11 +8,11 @@ module.exports = (db) => {
     const user_id = req.params.id;
     const category_name = req.body.category;
     const  amount = req.body.amount;
-  // db.query(`SELECT id from categories where name Like $1`,[category_name])
-  // .then((data)=>{
-  //   console.log("data here",data);
+  db.query(`SELECT id from categories where name Like $1`,[category_name])
+  .then((data)=>{
+    console.log("data here",data);
     db.query(`INSERT INTO transactions(user_id,category_id,amount) VALUES($1,$2,$3);
-    `,[ user_id,4, amount])
+    `,[ user_id,data.rows[0].id, amount])
     .then((data) => {
       console.log(data.rows[0]);
       res.sendStatus(200);
@@ -21,10 +21,10 @@ module.exports = (db) => {
       console.log(error);
     });
 
-  // })
-  // .catch((error) => {
-  //   console.log(error);
-  // });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
  
 });
 
