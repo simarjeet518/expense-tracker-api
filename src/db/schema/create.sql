@@ -36,7 +36,7 @@ CREATE TABLE user_categories (
 );
 
 CREATE TABLE transactions (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id text PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE ,
   category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE ,
   amount NUMERIC NOT NULL,
