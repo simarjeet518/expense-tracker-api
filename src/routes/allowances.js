@@ -29,9 +29,6 @@ module.exports = (db) => {
 });
 
   router.get("/:id", (req, res) => {
-    // let date  = new Date();
-    // let currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
-    // let currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
     console.log("inside here");
     db.query(`SELECT user_categories.id, categories.name as category , budget ,date  FROM user_categories 
     join categories on categories.id = category_id WHERE user_id =$1 order by date; `, [req.params.id])

@@ -4,7 +4,6 @@ const router = require("express").Router();
 module.exports = (db) => {
 
   router.post("/:id", (req, res) => {
-   // const id = req.body.id;
     const budget = req.body.amount;
     const user_id = req.params.id;
     console.log(budget);
@@ -29,8 +28,6 @@ module.exports = (db) => {
   router.get("/:id", (req, res) => {
     const user_id = req.params.id;
     let date  = new Date();
-    const currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
-    const currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
     db.query('SELECT id, budget as amount,date  FROM users_monthly_allowance WHERE user_id=$1;', [user_id])
       .then((data) => {
         res.json(data.rows);

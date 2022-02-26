@@ -23,7 +23,6 @@ const budget = require("./routes/budget");
 const categories = require("./routes/categories");
 const allowances = require("./routes/allowances")
 
-// app.use("api/allowances", allowances(db));
 app.use("/api", login(db));
 app.use("/api/users", users(db));
 app.use("/api/transactions", transactions(db));
@@ -46,11 +45,6 @@ function read(file) {
   });
 }
 
-// app.get(`*`, function(req, res){
-//   console.log("invalid");
-//   res.sendStatus(300);
-//   })
-// route to reset data
 app.get("/api/debug/reset", (req, res) => {
   Promise.all([
     read(path.resolve(__dirname, `db/schema/create.sql`)),

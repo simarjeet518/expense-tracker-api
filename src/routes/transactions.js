@@ -39,9 +39,6 @@ router.delete("/:id",(req,res) => {
 });
 
   router.get("/:id", (req, res) => {
-    // let date  = new Date();
-    // let currentMonthStartDate  = (new Date(date.getFullYear(), date.getMonth(), 1));
-    // let currentMonthLastDate  = (new Date(date.getFullYear(), date.getMonth()+1, 0));
     db.query(`SELECT transactions.id, categories.name as category , amount ,date  FROM transactions 
     join categories on categories.id = category_id WHERE user_id =$1 order by date ; `, [req.params.id])
       .then((data) => {
